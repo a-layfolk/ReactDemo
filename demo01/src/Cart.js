@@ -19,11 +19,15 @@ class Cart extends Component {
     return (
       <div>
         <div>
-          <input value={ this.state.inputValue } onChange={ this.inputChange }/>
+          <input
+            value={ this.state.inputValue }
+            onChange={ this.inputChange }
+            ref={ (input) => { this.input = input }}
+          />
           <button onClick={ this.addItem.bind(this) }>添加到购物车</button>
         </div>
         <div>
-          <ul>
+          <ul ref={ (ul) => { this.ul = ul }}>
               {
                 this.state.list.map((item, index) => {
                   return (
@@ -43,9 +47,9 @@ class Cart extends Component {
     )
   }
 
-  inputChange(e) {
+  inputChange() {
     this.setState({
-      inputValue: e.target.value
+      inputValue: this.input.value
     });
   }
 
@@ -53,6 +57,8 @@ class Cart extends Component {
     this.setState({
       list: [...this.state.list, this.state.inputValue],
       inputValue: ""
+    }, () => {
+      console.log(this.ul.querySelectorAll("li").length);
     });
   }
 
